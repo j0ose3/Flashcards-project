@@ -42,7 +42,7 @@ function AddCard() {
   return (
     <>
       {loadedDeck && (
-        <div className="container mt-4">
+        <div className="container mt-4 app-routes">
           <Breadcrumb names={[loadedDeck.name, "Add Card"]} />
           <h3>{loadedDeck.name}: Add Card</h3>
           <FormComponent

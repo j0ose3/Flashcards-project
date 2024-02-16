@@ -48,12 +48,12 @@ function Study() {
 
   const cardHandler = () => {
     history.push(`/decks/${loadedDeck.id}/cards/new`);
-  }
+  };
 
   return (
     <>
       {loadedDeck && (
-        <div>
+        <div className="app-routes">
           <Breadcrumb names={[loadedDeck.name, "Study"]} />
           <h1>Study: {loadedDeck.name}</h1>
           {loadedDeck.cards.length > 2 ? (
@@ -81,10 +81,12 @@ function Study() {
             <div>
               <h4>Not enough cards</h4>
               <p>
-                You need at least 3 cards to study. There are{" "}
-                {loadedDeck.cards.length} in this Deck
+                  You need at least 3 cards to study. There are
+                  {loadedDeck.cards.length} cards in this deck.
               </p>
-              <button onClick={cardHandler} className="btn btn-primary">Add Cards</button>
+              <button onClick={cardHandler} className="btn btn-primary">
+                Add Cards
+              </button>
             </div>
           )}
         </div>
