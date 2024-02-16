@@ -1,0 +1,12 @@
+.breadcrumb {
+  margin-bottom: 10px;
+}
+
+.breadcrumb span {
+  margin-right: 5px;
+}
+
+.breadcrumb a {
+  text-decoration: none;
+  color: #007bff;
+}
