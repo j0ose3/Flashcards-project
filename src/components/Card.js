@@ -6,7 +6,7 @@ const Card = ({ name, count, children, deleteHandler, studyHandler, viewHandler 
       <div className="d-flex justify-content-center align-items-center" style={{ height: "100%" }}>
         <div className="card border mb-3" style={{ maxWidth: "24rem", position: "relative" }}>
           <div style={{ position: "absolute", top: "0", right: "0", padding: "0.5rem" }}>
-            <span className="badge bg-secondary">{count} Cards</span>
+            <span className="badge bg-secondary">{count} cards</span>
           </div>
           <div className="card-body">
             <h2 className="card-title">{name}</h2>

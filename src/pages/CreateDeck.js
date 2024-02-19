@@ -25,13 +25,20 @@ function CreateDeck() {
   };
 
   const dataHandler = (e) => {
+    console.log(formData);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    const data = await createDeck(formData);
-    history.push(`/decks/${data.id}`);
+    const abortController = new AbortController();
+    const response = await createDeck({ ...formData }, abortController.signal);
+    history.push(`/decks/${response.id}`);
+    return response;
+    // e.preventDefault();
+    // const data = await createDeck(formData);
+    // console.log(data);
+    // history.push(`/decks/${data.id}`);
   };
 
   return (
@@ -40,15 +47,15 @@ function CreateDeck() {
         <div className="container mt-4">
           <Breadcrumb crumbs={crumbs} selected={selectedCrumb} />
           <h1>Create Deck</h1>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={submitHandler}>
             <div className="mb-3">
-              <label htmlFor="deckName" className="form-label">
+              <label className="form-label">
                 Name
               </label>
               <input
                 type="text"
                 className="form-control"
-                id="deckName"
+                id="name"
                 name="name"
                 placeholder="Deck Name"
                 onChange={dataHandler}
@@ -60,7 +67,7 @@ function CreateDeck() {
               </label>
               <textarea
                 className="form-control"
-                id="deckDescription"
+                id="description"
                 placeholder="Brief description of the Deck"
                 name="description"
                 rows={5}

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import DeckDetail from "../components/DeckDetail";
 import { listDecks, deleteDeck } from "../utils/api";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./Decks.css";
 
-function ShowDecks( {studyHandler}) {
+function ShowDecks({ studyHandler }) {
+  const history = useHistory();
   const [decks, setDecks] = useState([]);
 
   useEffect(() => {
@@ -18,6 +19,10 @@ function ShowDecks( {studyHandler}) {
     };
     fetchDecks();
   }, []);
+
+  // const createHandler = () => {
+  //   history.push("/decks/new");
+  // };
 
   const deleteHandler = async (deckId) => {
     const confirmDelete = window.confirm(
@@ -36,14 +41,18 @@ function ShowDecks( {studyHandler}) {
 
   return (
     <>
-      <Link className="create" to="/decks/new">Create Deck</Link>
-      {decks.map((deck) => (
-        <DeckDetail
-          deck={deck}
-          key={deck.id}
-          deleteHandler={() => deleteHandler(deck.id)}
-        />
-      ))}
+      <div>
+        <Link className="create" to="/decks/new">
+          Create Deck
+        </Link>
+        {decks.map((deck) => (
+          <DeckDetail
+            deck={deck}
+            key={deck.id}
+            deleteHandler={() => deleteHandler(deck.id)}
+          />
+        ))}
+      </div>
     </>
   );
 }
