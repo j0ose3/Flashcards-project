@@ -10,18 +10,30 @@ function Study() {
   const [loadedDeck, setLoadedDeck] = useState();
   const [isFlipped, setIsFlipped] = useState(false);
   const [index, setIndex] = useState(0);
+  const [crumbs, setCrumbs] = useState();
 
   useEffect(() => {
     const fetchDeck = async () => {
       try {
         const data = await readDeck(params.deckId);
         setLoadedDeck(data);
+        setCrumbs(['Home', data.name, 'Study']);
       } catch (error) {
         console.log(error);
       }
     };
     fetchDeck();
   }, [params.deckId]);
+
+  const selectedCrumb = (crumb) => {
+    switch(crumb) {
+      case 'Home': history.push('/');
+      break;
+      case loadedDeck.name: history.push(`/decks/${params.deckId}`);
+      break;
+      default: history.push('/');
+    }
+  }
 
   const flipCard = () => {
     setIsFlipped((current) => !current);
@@ -52,9 +64,9 @@ function Study() {
 
   return (
     <>
-      {loadedDeck && (
+      {loadedDeck && crumbs && (
         <div className="app-routes">
-          <Breadcrumb names={[loadedDeck.name, "Study"]} />
+          <Breadcrumb crumbs={crumbs} selected={selectedCrumb} />
           <h1>Study: {loadedDeck.name}</h1>
           {loadedDeck.cards.length > 2 ? (
             <div>

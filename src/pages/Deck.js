@@ -7,18 +7,28 @@ function Deck() {
   const params = useParams();
   const history = useHistory();
   const [loadedDeck, setLoadedDeck] = useState();
+  const [crumbs, setCrumbs] = useState();
 
   useEffect(() => {
     const fetchDeck = async () => {
       try {
         const data = await readDeck(params.deckId);
         setLoadedDeck(data);
+        setCrumbs(['Home', data.name]);
       } catch (error) {
         console.log(error);
       }
     };
     fetchDeck();
   }, [params.deckId]);
+
+  const selectedCrumb = (crumb) =>{
+    switch(crumb) {
+      case loadedDeck.name: history.push(`/decks/${params.deckId}`);
+      break;
+      default: history.push('/');
+    }
+  }
 
   const studyHandler = () => {
     history.push(`/decks/${loadedDeck.id}/study`);
@@ -68,9 +78,9 @@ function Deck() {
 
   return (
     <>
-      {loadedDeck && (
+      {loadedDeck && crumbs && (
         <div>
-          <Breadcrumb names={[loadedDeck.name]} />
+          <Breadcrumb crumbs={crumbs} selected={selectedCrumb}/>
           <div className="">
             <div className="card-body text-primary">
               <h2 className="card-title">{loadedDeck.name}</h2>

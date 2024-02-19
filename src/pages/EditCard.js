@@ -11,7 +11,8 @@ function EditCard() {
   const params = useParams();
   const [loadedDeck, setLoadedDeck] = useState();
   const [formData, setFormData] = useState({ ...initialState });
-
+  const [crumbs, setCrumbs] = useState();
+  ;
   useEffect(() => {
     const fetchDeck = async () => {
       try {
@@ -19,12 +20,23 @@ function EditCard() {
         const cardData = await readCard(params.cardId);
         setLoadedDeck(deckData);
         setFormData(cardData);
+        setCrumbs(['Home', `Deck ${deckData.name}`, `Edit Card ${cardData.id}`])
       } catch (error) {
         console.log(error);
       }
     };
     fetchDeck();
   }, [params.deckId, params.cardId]);
+
+  const selectedCrumb = (crumb) => {
+    switch (crumb) {
+      case `Deck ${loadedDeck.name}`:
+        history.push(`/decks/${params.deckId}`);
+        break;
+      default:
+        history.push("/");
+    }
+  };
 
   const onCancel = () => {
     history.push(`/decks/${loadedDeck.id}`);
@@ -42,12 +54,10 @@ function EditCard() {
 
   return (
     <>
-      {loadedDeck && (
+      {loadedDeck && crumbs && (
         <div>
           <div className="container mt-4">
-            <Breadcrumb
-              names={[`Deck ${loadedDeck.name}`, `Edit Card ${formData.id}`]}
-            />
+            <Breadcrumb crumbs={crumbs} selected={selectedCrumb} />
             <h3>Edit Card</h3>
             <FormComponent
               dataObject={formData}
